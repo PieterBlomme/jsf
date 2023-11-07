@@ -166,10 +166,6 @@ class JSF:
                 cls.path = path
                 return cls
             except: 
-                logger.warning(schema["$ref"])
-                logger.warning(ext)
-                logger.warning(frag)
-                logger.warning(self.definitions.keys())
                 raise ValueError(f"Cannot parse schema {repr(schema)}")  # pragma: no cover
         elif "anyOf" in schema:
             return self.__parse_anyOf(name, path, schema)
@@ -189,7 +185,7 @@ class JSF:
                     item = self.__parse_definition(name, path=f"#/{def_tag}", schema=definition)
                     self.definitions[f"#/{def_tag}/{name}"] = item
                 except ValueError:
-                    logger.info(f"Parsing {name} failed, will retry")
+                    logger.warning(f"Parsing {name} failed, will retry")
                     failed_definitions.append(name)
             for name in failed_definitions:
                 definition = schema.get(def_tag, {}).get(name)
