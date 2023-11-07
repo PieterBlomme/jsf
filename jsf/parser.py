@@ -169,7 +169,7 @@ class JSF:
                 logger.warning(schema["$ref"])
                 logger.warning(ext)
                 logger.warning(frag)
-                logger.warning(self.definitions)
+                logger.warning(self.definitions.keys())
                 raise ValueError(f"Cannot parse schema {repr(schema)}")  # pragma: no cover
         elif "anyOf" in schema:
             return self.__parse_anyOf(name, path, schema)
