@@ -184,8 +184,10 @@ class JSF:
         for def_tag in ("definitions", "$defs"):
             for name, definition in schema.get(def_tag, {}).items():
                 logger.info(name)
+            for name, definition in schema.get(def_tag, {}).items():
+                logger.info(name)
                 item = self.__parse_definition(name, path=f"#/{def_tag}", schema=definition)
-                logger.info(item)
+                # logger.info(item)
                 self.definitions[f"#/{def_tag}/{name}"] = item
 
         self.root = self.__parse_definition(name="root", path="#", schema=schema)
