@@ -182,8 +182,11 @@ class JSF:
 
     def _parse(self, schema: Dict[str, Any]) -> AllTypes:
         for def_tag in ("definitions", "$defs"):
-            for name, definition in schema.get(def_tag, {}).items():
-                logger.info(name)
+            # parse VentilationAttribute first, ordering matters
+            for name in ("VentilationAttribute", ):
+                definition = schema.get(def_tag, {}).get(name)
+                item = self.__parse_definition(name, path=f"#/{def_tag}", schema=definition)
+                self.definitions[f"#/{def_tag}/{name}"] = item
             for name, definition in schema.get(def_tag, {}).items():
                 logger.info(name)
                 item = self.__parse_definition(name, path=f"#/{def_tag}", schema=definition)
