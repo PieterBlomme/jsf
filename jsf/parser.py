@@ -182,17 +182,18 @@ class JSF:
 
     def _parse(self, schema: Dict[str, Any]) -> AllTypes:
         for def_tag in ("definitions", "$defs"):
-            # parse some attributes first, ordering matters
-            for name in ("VentilationAttribute", "WallAttribute"):
-                definition = schema.get(def_tag, {}).get(name)
-                if not definition:
-                    continue
-                item = self.__parse_definition(name, path=f"#/{def_tag}", schema=definition)
-                self.definitions[f"#/{def_tag}/{name}"] = item
+
+            failed_definitions = []
             for name, definition in schema.get(def_tag, {}).items():
-                logger.info(name)
+                try:
+                    item = self.__parse_definition(name, path=f"#/{def_tag}", schema=definition)
+                    self.definitions[f"#/{def_tag}/{name}"] = item
+                except ValueError:
+                    logger.info(f"Parsing {name} failed, will retry")
+                    failed_definitions.append(name)
+            for name in failed_definitions:
+                definition = schema.get(def_tag, {}).get(name)
                 item = self.__parse_definition(name, path=f"#/{def_tag}", schema=definition)
-                # logger.info(item)
                 self.definitions[f"#/{def_tag}/{name}"] = item
 
         self.root = self.__parse_definition(name="root", path="#", schema=schema)
