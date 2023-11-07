@@ -166,11 +166,13 @@ class JSF:
                 cls.path = path
                 return cls
             except: 
-                logger.info(schema["$ref"])
-                # this is how Lukas had it implemented in his fork
-                # its incorrect, but if it results in valid
-                # EBECSInputs, I guess it is usable
-                ValueError(f"Cannot parse schema {repr(schema)}")  # pragma: no cover
+                logger.warning(schema["$ref"])
+                logger.warning(ext)
+                logger.warning(frag)
+                logger.warning(self.definitions.get(f"#{frag}"))
+                logger.warning(external_jsf)
+                logger.warning(external_jsf.definitions.get(f"#{frag}"))
+                raise ValueError(f"Cannot parse schema {repr(schema)}")  # pragma: no cover
         elif "anyOf" in schema:
             return self.__parse_anyOf(name, path, schema)
         elif "allOf" in schema:
