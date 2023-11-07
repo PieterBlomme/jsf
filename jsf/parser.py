@@ -183,8 +183,9 @@ class JSF:
     def _parse(self, schema: Dict[str, Any]) -> AllTypes:
         for def_tag in ("definitions", "$defs"):
             for name, definition in schema.get(def_tag, {}).items():
-                logger.info(definition)
+                logger.info(name)
                 item = self.__parse_definition(name, path=f"#/{def_tag}", schema=definition)
+                logger.info(item)
                 self.definitions[f"#/{def_tag}/{name}"] = item
 
         self.root = self.__parse_definition(name="root", path="#", schema=schema)
