@@ -184,6 +184,8 @@ class JSF:
         for def_tag in ("definitions", "$defs"):
             # parse VentilationAttribute first, ordering matters
             for name in ("VentilationAttribute", ):
+                for k, v in schema.get(def_tag, {}).items():
+                    logger.info(k)
                 definition = schema.get(def_tag, {}).get(name)
                 logger.warning("name")
                 logger.warning(name)
