@@ -167,7 +167,11 @@ class JSF:
                 return cls
             except: 
                 logger.info(schema["$ref"])
-                raise ValueError(f"Cannot parse schema {repr(schema)}")  # pragma: no cover
+                # this is how Lukas had it implemented in his fork
+                # its incorrect, but if it results in valid
+                # EBECSInputs, I guess it is usable
+                logger.warning(ValueError(f"Cannot parse schema {repr(schema)}"))  # pragma: no cover
+                return None
         elif "anyOf" in schema:
             return self.__parse_anyOf(name, path, schema)
         elif "allOf" in schema:
