@@ -187,6 +187,8 @@ class JSF:
                 for k, v in schema.get(def_tag, {}).items():
                     logger.info(k)
                 definition = schema.get(def_tag, {}).get(name)
+                if not definition:
+                    continue
                 logger.warning("name")
                 logger.warning(name)
                 logger.warning("definition")
