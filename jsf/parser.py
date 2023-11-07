@@ -185,6 +185,10 @@ class JSF:
             # parse VentilationAttribute first, ordering matters
             for name in ("VentilationAttribute", ):
                 definition = schema.get(def_tag, {}).get(name)
+                logger.warning("name")
+                logger.warning(name)
+                logger.warning("definition")
+                logger.warning(definition)
                 item = self.__parse_definition(name, path=f"#/{def_tag}", schema=definition)
                 self.definitions[f"#/{def_tag}/{name}"] = item
             for name, definition in schema.get(def_tag, {}).items():
